@@ -1,0 +1,31 @@
+﻿@page "/"
+@inject IJSRuntime JS
+
+<h3>Driver Live Location Demo (Blazor + SignalR)</h3>
+
+<button @onclick="ShareLocation">Share My Location</button>
+<button @onclick="FakeMove" style="margin-left:10px">
+    Simulate Driver Move
+</button>
+
+<div id="map" style="height:500px;margin-top:20px;"></div>
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("initMap");
+        }
+    }
+
+    async Task ShareLocation()
+    {
+        await JS.InvokeVoidAsync("sendLocation");
+    }
+
+    async Task FakeMove()
+    {
+        await JS.InvokeVoidAsync("fakeMove");
+    }
+}
